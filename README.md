@@ -1,9 +1,9 @@
 Murray's post-install setup
 ===============================
 
-## Post-install bootrap
+## Post-install bootstrap
 
-1. Ensure `curl` is installed, if not install (prob only relevant for arch)
+1. Ensure `curl` is installed, if not install (prob only relevant for arch).  This step is only required if `curl` is not installed.
 
 ```
 pacman -Syu --noconfirm
@@ -15,6 +15,15 @@ pacman -S curl
 ```
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/pcinereus/post_install/main/bootstrap.sh)"
 ```
+
+If you are on a fresh arch install, you may be prompted to provide a name for a user and a password for this user.
+
+This script will:
+
+- clone this `post_install.git repo` at `~/post_install`
+- start the software install script that will install:
+  - stow
+
 
 ## WSL
 
@@ -81,4 +90,10 @@ wsl --export <DistroName> "$env:USERPROFILE\Downloads\<DistroName>-backup.tar"
 mkdir C:\WSL
 $InstallDir = "C:\WSL\<Name>"
 wsl --import <NewName> $InstallDir "$env:USERPROFILE\Downloads\<DistroName>-backup.tar"  --version 2
+```
+
+4. If you have installed archlinux, you will also want to set the root password
+
+```
+passwd
 ```
