@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-echo "\n\n"
+echo "Starting bootstrap script..."
 
 log()  { printf '[*] %s\n' "$*"; }
 ok()   { printf '[✓] %s\n' "$*"; }
