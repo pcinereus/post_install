@@ -16,14 +16,19 @@ pacman -S curl
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/pcinereus/post_install/main/bootstrap.sh)"
 ```
 
-If you are on a fresh arch install, you may be prompted to provide a name for a user and a password for this user.
+If you are on a fresh arch install, you may be prompted to provide a
+name for a user and a password for this user and then you will be asked
+to switch to this user and run the script again (as this user).
 
 This script will:
 
 - clone this `post_install.git repo` at `~/post_install`
-- start the software install script that will install:
-  - stow
+- start the software install script that will install the
+  software listed in `post_install/install/packages.conf`
 
+Some of the software have different names on different distributions
+and therefore, some of the software are suffixed with distribution
+names.
 
 ## WSL
 

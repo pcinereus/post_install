@@ -86,3 +86,6 @@ esac
 # Install packages by category
 echo "Installing system utilities..."
 install_packages "${SYSTEM_UTILS[@]}"
+
+echo "Installing development tools..."
+install_packages "${DEV_TOOLS[@]}"
