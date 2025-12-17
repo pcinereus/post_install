@@ -92,3 +92,9 @@ install_packages "${DEV_TOOLS[@]}"
 
 echo "Installing modelling tools..."
 install_packages "${MODEL_TOOLS[@]}"
+
+echo "Installing package managed R packages..."
+install_packages "${R_PACKAGES[@]}"
+
+echo "Installing other R packages..."
+sudo Rscript install_r_packages.R

@@ -127,8 +127,40 @@ install_quarto() {
 
 ## Install INLA
 install_inla() {
-  sudo Rscript -e "if (!requireNamespace('INLA', quietly = TRUE)) remotes::install_version('INLA', version = '25.06.13',
- repos = c(getOption('repos'), INLA = 'https://inla.r-inla-download.org/R/testing'), dep = TRUE)"
+
+  # Fetch the INLA versions from the website
+  html_content=$(curl -s https://www.r-inla.org/download-install)
+
+  # Extract INLA versions from the HTML content
+  versions=$(echo "$html_content" | \
+    grep -oP '(?<=&lt;td&gt;&lt;code&gt;)[0-9]+\.[0-9]+\.[0-9]+(?=&lt;/code&gt;)' | sort -u)
+
+  # Convert the versions into an array
+  IFS=$'\n' read -r -d '' -a version_array <<< "$versions"
+
+  # Display the versions as a menu
+  echo "Available INLA versions:"
+  for i in "${!version_array[@]}"; do
+    echo "$((i + 1)). ${version_array[i]}"
+  done
+
+  # Prompt the user to select a version
+  read -p "Enter the number corresponding to the version you want to install: " choice
+
+  # Validate the user's choice
+  if [[ $choice -lt 1 || $choice -gt ${#version_array[@]} ]]; then
+    echo "Invalid choice. Exiting."
+    return 1
+  fi
+
+  # Get the selected version
+  selected_version=${version_array[$((choice - 1))]}
+  echo "You selected version $selected_version."
+
+  # sudo Rscript -e "if (!requireNamespace('INLA', quietly = TRUE)) remotes::install_version('INLA', version = '25.06.13',
+ # repos = c(getOption('repos'), INLA = 'https://inla.r-inla-download.org/R/testing'), dep = TRUE)"
+  sudo Rscript -e "if (!requireNamespace('INLA', quietly = TRUE)) remotes::install_version('INLA', version = '$selected_version', repos = c(getOption('repos'), INLA = 'https://inla.r-inla-download.org/R/testing'), dep = TRUE)"
+
   # now since this was installed as root, we need to make a couple of files executable as anyone
   sudo chmod a+x /usr/local/lib/R/site-library/INLA/bin/linux/64bit/inla.mkl.run
   sudo chmod a+x /usr/local/lib/R/site-library/INLA/bin/linux/64bit/inla.mkl
