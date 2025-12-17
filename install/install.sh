@@ -89,3 +89,6 @@ install_packages "${SYSTEM_UTILS[@]}"
 
 echo "Installing development tools..."
 install_packages "${DEV_TOOLS[@]}"
+
+echo "Installing modelling tools..."
+install_packages "${MODEL_TOOLS[@]}"
