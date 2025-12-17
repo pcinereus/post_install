@@ -97,4 +97,4 @@ echo "Installing package managed R packages..."
 install_packages "${R_PACKAGES[@]}"
 
 echo "Installing other R packages..."
-sudo Rscript install_r_packages.R
+sudo Rscript install/install_r_packages.R
