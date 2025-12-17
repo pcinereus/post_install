@@ -98,9 +98,12 @@ if is_arch; then
 
     if is_root; then
         TARGET_USER="$(awk -F: '($3 >= 1000 && $3 < 65534 && $1 != "nobody") { print $1; exit }' /etc/passwd)"
-        warn "Running as root on Arch Linux is not recommended.
-        Please run this script as a non-root user.
-        e.g. with su - $TARGET_USER"
+        warn "$(cat <<-EOF
+          Running as root on Arch Linux is not recommended.
+          Please run this script as a non-root user.
+          e.g. with su - $TARGET_USER
+        EOF
+        )"
         # if is_wsl; then
         #     # warn "Detected WSL environment. Adjusting for WSL."
         #     # # Temporarily allow passwordless sudo for the current session
