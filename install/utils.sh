@@ -141,15 +141,10 @@ install_inla() {
     grep -oP '(?<=&lt;td&gt;&lt;code&gt;)[0-9]+\.[0-9]+\.[0-9]+(?=&lt;/code&gt;)' | sort -u)
 
   # Convert the versions into an array
-  # IFS=$'\n' read -r -d '' -a version_array <<< "$versions"
-  # IFS=$'\n' read -r -d '\n' -a version_array <<< "$versions"
-
   version_array=()
   while IFS= read -r line; do
       version_array+=("$line")
   done <<< "$versions"
-
-  echo "$versions"
 
   # Display the versions as a menu
   echo "Available INLA versions:"
