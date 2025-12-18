@@ -132,7 +132,6 @@ install_quarto() {
 
 ## Install INLA
 install_inla() {
-    echo "test"
 
   # Fetch the INLA versions from the website
   html_content=$(curl -s https://www.r-inla.org/download-install)
@@ -140,6 +139,8 @@ install_inla() {
   # Extract INLA versions from the HTML content
   versions=$(echo "$html_content" | \
     grep -oP '(?<=&lt;td&gt;&lt;code&gt;)[0-9]+\.[0-9]+\.[0-9]+(?=&lt;/code&gt;)' | sort -u)
+
+  echo "$versions"
 
   # Convert the versions into an array
   IFS=$'\n' read -r -d '' -a version_array <<< "$versions"
