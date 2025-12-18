@@ -142,7 +142,12 @@ install_inla() {
 
   # Convert the versions into an array
   # IFS=$'\n' read -r -d '' -a version_array <<< "$versions"
-  IFS=$'\n' read -r -d '\n' -a version_array <<< "$versions"
+  # IFS=$'\n' read -r -d '\n' -a version_array <<< "$versions"
+
+  version_array=()
+  while IFS= read -r line; do
+      version_array+=("$line")
+  done <<< "$versions"
 
   echo "$versions"
 
