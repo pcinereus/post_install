@@ -50,6 +50,9 @@ install_packages() {
     arch)
       sudo pacman -S --noconfirm "${to_install[@]}"
       ;;
+    yay)
+      yay -S "${to_install[@]}"
+      ;;
     fedora)
       sudo dnf install -y "${to_install[@]}"
       ;;
