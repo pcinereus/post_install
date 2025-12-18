@@ -140,10 +140,9 @@ install_inla() {
   versions=$(echo "$html_content" | \
     grep -oP '(?<=&lt;td&gt;&lt;code&gt;)[0-9]+\.[0-9]+\.[0-9]+(?=&lt;/code&gt;)' | sort -u)
 
-  echo "$versions"
-
   # Convert the versions into an array
-  IFS=$'\n' read -r -d '' -a version_array <<< "$versions"
+  # IFS=$'\n' read -r -d '' -a version_array <<< "$versions"
+  IFS=$'\n' read -r -a version_array <<< "$versions"
 
   echo "$versions"
 
