@@ -132,6 +132,7 @@ install_quarto() {
 
 ## Install INLA
 install_inla() {
+    echo "test"
 
   # Fetch the INLA versions from the website
   html_content=$(curl -s https://www.r-inla.org/download-install)
