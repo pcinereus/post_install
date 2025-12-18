@@ -40,3 +40,5 @@ install_my_packages <- function() {
 
 # Call the function
 install_my_packages()
+
+## install V8

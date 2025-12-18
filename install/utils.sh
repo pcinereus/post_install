@@ -48,10 +48,12 @@ install_packages() {
       sudo apt install -y "${to_install[@]}"
       ;;
     arch)
-      sudo pacman -S --noconfirm "${to_install[@]}"
-      ;;
-    yay)
-      yay -S "${to_install[@]}"
+      # Try sudo pacman first
+      if ! sudo pacman -S --noconfirm "${to_install[@]}"; then
+        echo "sudo pacman failed. Trying yay..."
+        yay -S "${to_install[@]}"
+      fi
+      # sudo pacman -S --noconfirm "${to_install[@]}"
       ;;
     fedora)
       sudo dnf install -y "${to_install[@]}"
