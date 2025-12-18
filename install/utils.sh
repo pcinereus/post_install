@@ -145,6 +145,8 @@ install_inla() {
   # Convert the versions into an array
   IFS=$'\n' read -r -d '' -a version_array <<< "$versions"
 
+  echo "$versions"
+
   # Display the versions as a menu
   echo "Available INLA versions:"
   for i in "${!version_array[@]}"; do
