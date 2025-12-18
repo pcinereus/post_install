@@ -51,7 +51,7 @@ install_packages() {
       # Try sudo pacman first
       if ! sudo pacman -S --noconfirm "${to_install[@]}"; then
         echo "sudo pacman failed. Trying yay..."
-        yay -S -noconfirm --answerclean All "${to_install[@]}"
+        yay -S --noconfirm --answerclean All "${to_install[@]}"
       fi
       # sudo pacman -S --noconfirm "${to_install[@]}"
       ;;
