@@ -96,6 +96,10 @@ install_packages "${MODEL_TOOLS[@]}"
 echo "Installing package managed R packages..."
 install_packages "${R_PACKAGES[@]}"
 
+echo "Installing INLA..."
+install_inla
+
+
 echo "Installing other R packages..."
 sudo Rscript install/install_r_packages.R
 
