@@ -98,3 +98,19 @@ install_packages "${R_PACKAGES[@]}"
 
 echo "Installing other R packages..."
 sudo Rscript install/install_r_packages.R
+
+
+# Determine if running in WSL
+is_wsl() {
+    grep -qEi "(microsoft|wsl)" /proc/version &>/dev/null
+}
+if is_wsl; then
+    # Check if the symbolic link already exists
+    if [ ! -L ~/Work ]; then
+        # Create the symbolic link
+        ln -s /mnt/c/Users/mlogan/Work ~/Work
+        echo "Symbolic link ~/Work created."
+    else
+        echo "Symbolic link ~/Work already exists."
+    fi
+fi
