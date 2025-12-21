@@ -1,6 +1,17 @@
 #!/bin/sh
 set -eu
 
+#######################################################################
+## This script bootstraps the post_install setup                      #
+## Specifically, it:                                                  #
+## - detects the OS                                                   #
+## - ensures dependencies are installed,                              #
+## - creates a non-root user if needed                                #
+## - clones (or pulls) the full post-install repository               #
+#######################################################################
+
+
+
 echo "Starting bootstrap script..."
 
 log()  { printf '[*] %s\n' "$*"; }
@@ -195,4 +206,5 @@ cd "$REPO"
 #esac
 
 # Install software
-sh install/install.sh
+# sh install/install.sh
+bash run.sh
