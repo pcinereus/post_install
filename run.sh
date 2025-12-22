@@ -69,6 +69,7 @@ done
 
 BL_G="╚"
 BR_G="╝"
+HL="═"
 # ────────────────────────────────────────────────
 # Main Display Loop
 # ────────────────────────────────────────────────
@@ -106,6 +107,6 @@ while true; do
     display_log_tail LOG_BLOCK
     printf "%s\n" "${LOG_BLOCK[@]}"
 
-    printf "%s%s%s\n" "$BL_G" "$(printf "%*s" "$WIDTH" "" | sed "s/ /$BR_G/g")" "$BR_G"
+    printf "%s%s%s\n" "$BL_G" "$(printf "%*s" "$WIDTH" "" | sed "s/ /$HL/g")" "$BR_G"
     sleep "$REFRESH"
 done
