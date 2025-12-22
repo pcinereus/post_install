@@ -67,6 +67,8 @@ while [[ ! -f "$flag_file" ]]; do
     sleep 1
 done
 
+BL_G="╚"
+BR_G="╝"
 # ────────────────────────────────────────────────
 # Main Display Loop
 # ────────────────────────────────────────────────
@@ -104,6 +106,6 @@ while true; do
     display_log_tail LOG_BLOCK
     printf "%s\n" "${LOG_BLOCK[@]}"
 
-    printf "%s%s%s\n" "$TL" "$(printf "%*s" "$WIDTH" "" | sed "s/ /$HL/g")" "$TR"
+    printf "%s%s%s\n" "$BL" "$(printf "%*s" "$WIDTH" "" | sed "s/ /$BR/g")" "$TR"
     sleep "$REFRESH"
 done
