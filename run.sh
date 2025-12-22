@@ -106,6 +106,6 @@ while true; do
     display_log_tail LOG_BLOCK
     printf "%s\n" "${LOG_BLOCK[@]}"
 
-    printf "%s%s%s\n" "$BL_G" "$(printf "%*s" "$WIDTH" "" | sed "s/ /$BR_G/g")" "$TR"
+    printf "%s%s%s\n" "$BL_G" "$(printf "%*s" "$WIDTH" "" | sed "s/ /$BR_G/g")" "$BR_G"
     sleep "$REFRESH"
 done
