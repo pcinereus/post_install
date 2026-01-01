@@ -243,7 +243,8 @@ draw_logo() {
 generate_sys_info() {
     echo "OS: $(uname -s)"
     echo "Kernel: $(uname -r)"
-    echo "Distro: $(. /etc/os-release; echo $NAME $VERSION)"
+    # echo "Distro: $(. /etc/os-release; echo $NAME $VERSION)"
+    echo "Distro: $(. /etc/os-release; echo "$PRETTY_NAME")"
     echo "WSL: $(if is_wsl; then echo "Yes"; else echo "No"; fi)"
     echo "Run as root: $(if is_root; then echo "Yes"; else echo "No"; fi)"
     echo "User: $(whoami)"
