@@ -1,7 +1,7 @@
 Murray's post-install setup
 ===============================
 
-## Post-install bootstrap
+## Dependencies
 
 1. Ensure `curl` is installed, if not install (prob only relevant for arch).  This step is only required if `curl` is not installed.
 
@@ -10,7 +10,29 @@ pacman -Syu --noconfirm
 pacman -S curl
 ```
 
-2. Use `curl` to run an install script (from github)
+2. Ensure that locales have been generated
+
+a. Edit `/etc/local.gen` to uncomment out `en_US.UTF-8 UTF-8`
+
+b. Generate locales
+
+```
+sudo locale-gen
+```
+
+c. Set the system local
+
+```
+echo 'LANG=en_US.UTF-8' | sudo tee /etc/locale.conf
+```
+
+d. Restart shell (or WSL)
+
+
+## Post-install bootstrap
+
+
+1. Use `curl` to run an install script (from github)
 
 ```
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/pcinereus/post_install/main/bootstrap.sh)"
