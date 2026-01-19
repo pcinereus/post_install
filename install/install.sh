@@ -28,6 +28,7 @@ run_install_type() {
   local install_type="$1"
   local -a packages="$2"
   read -ra packages <<< "${packages[@]}"
+  local overall_status=0
 
   for package in "${packages[@]}"; do
       # Skip commented-out items
@@ -38,30 +39,48 @@ run_install_type() {
       case "$install_type" in
           package)
               install_package "$package" "$distro" "$log_file"
-              return $?
+              # return $?
+              if [[ $? -ne 0 ]]; then
+                  overall_status=1
+              fi
               ;;
           r_cran_package)
               install_R_package "$package" "$log_file"
-              return $?
+              # return $?
+              if [[ $? -ne 0 ]]; then
+                  overall_status=1
+              fi
               ;;
           r_github_package)
               install_R_git_package "$package" "$log_file"
-              return $?
+              # return $?
+              if [[ $? -ne 0 ]]; then
+                  overall_status=1
+              fi
               ;;
           r_inla_package)
               install_inla
-              return $?
+              # return $?
+              if [[ $? -ne 0 ]]; then
+                  overall_status=1
+              fi
               ;;
           python_package)
               install_python_package "$package" "$log_file"
-              return $?
+              # return $?
+              if [[ $? -ne 0 ]]; then
+                  overall_status=1
+              fi
               ;;
           *)
               echo "Unknown install type: $install_type" >&2
-              return 1
+              # return 1
+              overall_status=1
               ;;
       esac
   done
+
+  return $overall_status
 }
 
 install_package() {
