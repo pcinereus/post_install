@@ -54,6 +54,9 @@ if [[ -f "install/stage.log" ]]; then
   rm "install/stage.log"
 fi
 
+echo "Authenticating sudo…"
+sudo -v </dev/tty
+
 # ─────────────────────────────────────────────────────────────────────
 # Process the package data
 # ─────────────────────────────────────────────────────────────────────

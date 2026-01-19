@@ -121,7 +121,7 @@ stage_file="install/stage.log"
 > "$log_file"
 rm -f "$flag_file"
 
-sudo -v
+# sudo -v
 
 # Create the flag file to signal that the password has been supplied
 touch "$flag_file"
