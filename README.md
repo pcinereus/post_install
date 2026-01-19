@@ -12,21 +12,21 @@ pacman -S curl
 
 2. Ensure that locales have been generated
 
-a. Edit `/etc/local.gen` to uncomment out `en_US.UTF-8 UTF-8`
+   a. Edit `/etc/local.gen` to uncomment out `en_US.UTF-8 UTF-8`
 
-b. Generate locales
+   b. Generate locales
 
-```
-sudo locale-gen
-```
+   ```
+   sudo locale-gen
+   ```
 
-c. Set the system local
+   c. Set the system local
 
-```
-echo 'LANG=en_US.UTF-8' | sudo tee /etc/locale.conf
-```
+   ```
+   echo 'LANG=en_US.UTF-8' | sudo tee /etc/locale.conf
+   ```
 
-d. Restart shell (or WSL)
+   d. Restart shell (or WSL)
 
 
 ## Post-install bootstrap
