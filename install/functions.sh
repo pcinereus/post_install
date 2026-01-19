@@ -570,3 +570,29 @@ install_python_package() {
   pip install "$package"
   deactivate
 }
+
+## create a function that sets the following symbolic links:
+## /mnt/c/Users/mlogan/wsl-home/Work → ~/Work
+## /mnt/c/Users/mlogan/wsl-home/Personal → ~/Personal
+## /mnt/c/Users/mlogan/wsl-home/Resources → ~/Resources
+
+setup_wsl_symlinks() {
+  local WSL_HOME="/mnt/c/Users/mlogan/wsl-home"
+  local LINKS=("Work" "Personal" "Resources")
+
+  for link in "${LINKS[@]}"; do
+    local target="$WSL_HOME/$link"
+    local link_name="$HOME/$link"
+
+    if [ -d "$target" ]; then
+      if [ -L "$link_name" ]; then
+        echo "Symbolic link $link_name already exists."
+      else
+        ln -s "$target" "$link_name"
+        echo "Created symbolic link: $link_name → $target"
+      fi
+    else
+      echo "Target directory $target does not exist. Skipping link creation."
+    fi
+  done
+}

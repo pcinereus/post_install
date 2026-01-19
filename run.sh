@@ -127,6 +127,10 @@ while $RUNNING; do
 
 done
 
+## Set up symbolic links (if windows)
+if is_wsl; then
+  setup_wsl_symlinks
+fi
 
 ## Place the cursor back to its original position (under the frame)
 tput rc
