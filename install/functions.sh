@@ -51,35 +51,35 @@
 # | For unsupported distros: Error message and exit code ~1~.         |
 # +-------------------------------------------------------------------+
 get_distro() {
-    local os_name
-    local distro
+  local os_name
+  local distro
 
-    # Read the NAME field from /etc/os-release
-    if [[ -f /etc/os-release ]]; then
-        os_name=$(grep "^NAME=" /etc/os-release | cut -d= -f2 | tr -d '"')
-    else
-        echo "Error: /etc/os-release not found." >&2
-        return 1
-    fi
+  # Read the NAME field from /etc/os-release
+  if [[ -f /etc/os-release ]]; then
+    os_name=$(grep "^NAME=" /etc/os-release | cut -d= -f2 | tr -d '"')
+  else
+    echo "Error: /etc/os-release not found." >&2
+    return 1
+  fi
 
-    # Map the NAME to a simplified distro identifier
-    case "$os_name" in
-        Debian*)
-            distro="debian"
-            ;;
-        Ubuntu*)
-            distro="ubuntu"
-            ;;
-        Arch*)
-            distro="arch"
-            ;;
-        *)
-            echo "Error: Unsupported distro: $os_name" >&2
-            return 1
-            ;;
-    esac
+  # Map the NAME to a simplified distro identifier
+  case "$os_name" in
+  Debian*)
+    distro="debian"
+    ;;
+  Ubuntu*)
+    distro="ubuntu"
+    ;;
+  Arch*)
+    distro="arch"
+    ;;
+  *)
+    echo "Error: Unsupported distro: $os_name" >&2
+    return 1
+    ;;
+  esac
 
-    echo "$distro"
+  echo "$distro"
 }
 
 # +-------------------------------------------------------------------+
@@ -116,7 +116,7 @@ get_distro() {
 # | fi                                                                |
 # +-------------------------------------------------------------------+
 is_wsl() {
-    grep -qEi "(microsoft|wsl)" /proc/version &>/dev/null
+  grep -qEi "(microsoft|wsl)" /proc/version &>/dev/null
 }
 
 # +-------------------------------------------------------------------+
@@ -154,62 +154,62 @@ is_wsl() {
 # | fi                                                                |
 # +-------------------------------------------------------------------+
 is_root() {
-    [ "$(id -u)" -eq 0 ]
+  [ "$(id -u)" -eq 0 ]
 }
 
 get_stage_description() {
-    #local current_stage
-    #current_stage=$(cat "$CURRENT_STAGE")
-    echo "$CURRENT_STAGE"
-    return 0
+  #local current_stage
+  #current_stage=$(cat "$CURRENT_STAGE")
+  echo "$CURRENT_STAGE"
+  return 0
 }
 
 create_progress_list() {
-    local items=("$@")
-    stage_file="install/stage.log"
+  local items=("$@")
+  stage_file="install/stage.log"
 
-    local CHECKED="\033[1;32m[✓]\033[0m"
-    local UNCHECKED="\033[1;37m[ ]\033[0m"
-    local FAILED="\033[1;31m[✗]\033[0m"
-    local CURRENT="\033[1;33m[▶]\33[0m"
+  local CHECKED="\033[1;32m[✓]\033[0m"
+  local UNCHECKED="\033[1;37m[ ]\033[0m"
+  local FAILED="\033[1;31m[✗]\033[0m"
+  local CURRENT="\033[1;33m[▶]\33[0m"
 
-    local out=()
-    # local i
+  local out=()
+  # local i
 
-    # for i in "${!items[@]}"; do
-    #     if (( i % 2 == 0 )); then
-    #         out+=( "$(printf "%b %s" "$CHECKED" "${items[i]}")" )
-    #     else
-    #         out+=( "$(printf "%b %s" "$UNCHECKED" "${items[i]}")" )
-    #     fi
-    # done
+  # for i in "${!items[@]}"; do
+  #     if (( i % 2 == 0 )); then
+  #         out+=( "$(printf "%b %s" "$CHECKED" "${items[i]}")" )
+  #     else
+  #         out+=( "$(printf "%b %s" "$UNCHECKED" "${items[i]}")" )
+  #     fi
+  # done
 
-    [[ -f "$stage_file" ]] || return 1
+  [[ -f "$stage_file" ]] || return 1
 
-    while IFS='|' read -r name status current; do
-        # Skip empty or malformed lines
-        [[ -z "$name" || -z "$status" ]] && continue
+  while IFS='|' read -r name status current; do
+    # Skip empty or malformed lines
+    [[ -z "$name" || -z "$status" ]] && continue
 
-        case "$status" in
-            1)
-                out+=( "$(printf "%b %s" "$CHECKED" "$name")" )
-                ;;
-            0)
-                out+=( "$(printf "%b %s" "$UNCHECKED" "$name")" )
-                ;;
-            2)
-                out+=( "$(printf "%b %s" "$FAILED" "$name")" )
-                ;;
-            -1)
-                out+=( "$(printf "%b %s" "$CURRENT" "$name")" )
-                ;;
-            *)
-                # Unknown state → treat as unchecked
-                out+=( "$(printf "%b %s" "$UNCHECKED" "$name")" )
-                ;;
-        esac
-    done < "$stage_file"    # "return" the result
-    printf "%s\n" "${out[@]}"
+    case "$status" in
+    1)
+      out+=("$(printf "%b %s" "$CHECKED" "$name")")
+      ;;
+    0)
+      out+=("$(printf "%b %s" "$UNCHECKED" "$name")")
+      ;;
+    2)
+      out+=("$(printf "%b %s" "$FAILED" "$name")")
+      ;;
+    -1)
+      out+=("$(printf "%b %s" "$CURRENT" "$name")")
+      ;;
+    *)
+      # Unknown state → treat as unchecked
+      out+=("$(printf "%b %s" "$UNCHECKED" "$name")")
+      ;;
+    esac
+  done <"$stage_file" # "return" the result
+  printf "%s\n" "${out[@]}"
 }
 
 # +-------------------------------------------------------------------+
@@ -269,51 +269,50 @@ create_progress_list() {
 # |   package checks.                                                 |
 # +-------------------------------------------------------------------+
 is_installed() {
-    local type="$1"
-    local app="$2"
-    local distro="$3"
+  local type="$1"
+  local app="$2"
+  local distro="$3"
 
-    # tput cup 70 0
-    # echo "$type"
+  # tput cup 70 0
+  # echo "$type"
 
-    case "$type" in
-        package)
-            # echo "There"
-            check_package_installed "$app" "$distro"
-            return $?
-            ;;
-        r_package)
-            # echo "here"
-            package="${app#*/}"
-            check_R_package_installed "$package"
-            # check_R_package_installed "$app"
-            return $?
-            ;;
-        R_git_package)
-            package="${app#*/}"
-            check_R_package_installed "$package"
-            return $?
-            ;;
-        INLA)
-            # check_inla_installed
-            check_R_package_installed "$package"
-            return $?
-            ;;
-        python_package)
-            check_python_package_installed "$app"
-            return $?
-            ;;
-        quarto)
-            check_application_installed "$app"
-            return $?
-            ;;
-        other)
-            check_application_installed "$app"
-            return $?
-            ;;
-        *)
-            ;;
-    esac
+  case "$type" in
+  package)
+    # echo "There"
+    check_package_installed "$app" "$distro"
+    return $?
+    ;;
+  r_package)
+    # echo "here"
+    package="${app#*/}"
+    check_R_package_installed "$package"
+    # check_R_package_installed "$app"
+    return $?
+    ;;
+  R_git_package)
+    package="${app#*/}"
+    check_R_package_installed "$package"
+    return $?
+    ;;
+  INLA)
+    # check_inla_installed
+    check_R_package_installed "$package"
+    return $?
+    ;;
+  python_package)
+    check_python_package_installed "$app"
+    return $?
+    ;;
+  quarto)
+    check_application_installed "$app"
+    return $?
+    ;;
+  other)
+    check_application_installed "$app"
+    return $?
+    ;;
+  *) ;;
+  esac
 }
 
 # +-------------------------------------------------------------------+
@@ -369,23 +368,23 @@ is_installed() {
 # |   commands are available on the system.                           |
 # +-------------------------------------------------------------------+
 check_package_installed() {
-    local app="$1"
-    local distro="$2"
+  local app="$1"
+  local distro="$2"
 
-    case "$distro" in
-        debian|ubuntu)
-            dpkg -l "$app" &>/dev/null
-            return $?  # Return 0 if installed, non-zero otherwise
-            ;;
-        arch)
-            pacman -Q "$app" &>/dev/null
-            return $?  # Return 0 if installed, non-zero otherwise
-            ;;
-        *)
-            echo "Unsupported distro: $distro" >&2
-            return 1
-            ;;
-    esac
+  case "$distro" in
+  debian | ubuntu)
+    dpkg -l "$app" &>/dev/null
+    return $? # Return 0 if installed, non-zero otherwise
+    ;;
+  arch)
+    pacman -Q "$app" &>/dev/null
+    return $? # Return 0 if installed, non-zero otherwise
+    ;;
+  *)
+    echo "Unsupported distro: $distro" >&2
+    return 1
+    ;;
+  esac
 }
 
 # +-------------------------------------------------------------------+
@@ -439,73 +438,71 @@ check_package_installed() {
 # |   deleted to force regeneration.                                  |
 # +-------------------------------------------------------------------+
 check_R_package_installed() {
-    local R_package "$1"
+  local R_package "$1"
 
-    ## Check if installed_R_packages.txt exists and if it does not
-    ## then run Rscript writeLines to create it
-    ## if it does, then grep it to see if the package is listed
-    if [[ ! -f install/installed_R_packages.txt ]]; then
-        Rscript -e "writeLines(installed.packages()[, 'Package'], 'install/installed_R_packages.txt')"
-#         Rscript -e "installed_packages <- installed.packages()[, 'Package']; writeLines
-# (installed_packages, 'installed_R_packages.txt')"
-    fi
-    grep -q "^$1$" install/installed_R_packages.txt
-    if [[ $? -eq 0 ]]; then  # is installed
-        return 0
-    else
-        return 1             # not installed
-    fi
+  ## Check if installed_R_packages.txt exists and if it does not
+  ## then run Rscript writeLines to create it
+  ## if it does, then grep it to see if the package is listed
+  if [[ ! -f install/installed_R_packages.txt ]]; then
+    Rscript -e "writeLines(installed.packages()[, 'Package'], 'install/installed_R_packages.txt')"
+    #         Rscript -e "installed_packages <- installed.packages()[, 'Package']; writeLines
+    # (installed_packages, 'installed_R_packages.txt')"
+  fi
+  grep -q "^$1$" install/installed_R_packages.txt
+  if [[ $? -eq 0 ]]; then # is installed
+    return 0
+  else
+    return 1 # not installed
+  fi
 
-
-
-    # Rscript -e "if (!suppressWarnings(requireNamespace('$1', quietly = TRUE))) { quit(status = 1) }"
-    # if [[ $? -eq 0 ]]; then  # is installed
-    #     return 0
-    # else
-    #     return 1             # not installed
-    # fi
+  # Rscript -e "if (!suppressWarnings(requireNamespace('$1', quietly = TRUE))) { quit(status = 1) }"
+  # if [[ $? -eq 0 ]]; then  # is installed
+  #     return 0
+  # else
+  #     return 1             # not installed
+  # fi
 }
 
 check_python_package_installed() {
-    local package="$1"
+  local package="$1"
 
-    local VENV_DIR="$HOME/python-venv"
+  local VENV_DIR="$HOME/python-venv"
 
-    # Ensure the virtual environment exists
-    if [ ! -d "$VENV_DIR" ]; then
-        echo "Virtual environment not found at $VENV_DIR. Please create it first."
-        return 1
-    fi
+  # Ensure the virtual environment exists
+  if [ ! -d "$VENV_DIR" ]; then
+    echo "Virtual environment not found at $VENV_DIR. Please create it first."
+    return 1
+  fi
 
-    # Activate the virtual environment
-    source "$VENV_DIR/bin/activate"
+  # Activate the virtual environment
+  source "$VENV_DIR/bin/activate"
 
-    # Check if the package is installed
-    pip show "$package" &>/dev/null
-    local status=$?
+  # Check if the package is installed
+  pip show "$package" &>/dev/null
+  local status=$?
 
-    # Deactivate the virtual environment
-    deactivate
+  # Deactivate the virtual environment
+  deactivate
 
-    return $status
+  return $status
 }
 
 install_R_package() {
-    local R_package="$1"
-    local log_file="$2"
+  local R_package="$1"
+  local log_file="$2"
 
-    Rscript -e "install.packages('$R_package', repos='https://cloud.r-project.org/')" >> "$log_file" 2>&1
+  Rscript -e "install.packages('$R_package', repos='https://cloud.r-project.org/')" >>"$log_file" 2>&1
 }
 
 install_R_git_package() {
-    local R_package="$1"
-    local log_file="$2"
+  local R_package="$1"
+  local log_file="$2"
 
-    if ! is_installed "R_package" "pak" "$log_file" ; then
-        Rscript -e "install.packages('pak', repos='https://cloud.r-project.org/')" >> "$log_file" 2>&1
-    fi
+  if ! is_installed "R_package" "pak" "$log_file"; then
+    Rscript -e "install.packages('pak', repos='https://cloud.r-project.org/')" >>"$log_file" 2>&1
+  fi
 
-    Rscript -e "pak::pkg_install('$R_package')" >> "$log_file" 2>&1
+  Rscript -e "pak::pkg_install('$R_package')" >>"$log_file" 2>&1
 }
 
 install_inla() {
@@ -514,14 +511,14 @@ install_inla() {
   html_content=$(curl -s https://www.r-inla.org/download-install)
 
   # Extract INLA versions from the HTML content
-  versions=$(echo "$html_content" | \
+  versions=$(echo "$html_content" |
     grep -oP '(?<=&lt;td&gt;&lt;code&gt;)[0-9]+\.[0-9]+\.[0-9]+(?=&lt;/code&gt;)' | sort -u)
 
   # Convert the versions into an array
   version_array=()
   while IFS= read -r line; do
-      version_array+=("$line")
-  done <<< "$versions"
+    version_array+=("$line")
+  done <<<"$versions"
 
   # # Display the versions as a menu
   # echo "Available INLA versions:"
@@ -546,9 +543,8 @@ install_inla() {
   selected_version=$(printf "%s\n" "${version_array[@]}" | sort -V | tail -n 1)
 
   # sudo Rscript -e "if (!requireNamespace('INLA', quietly = TRUE)) remotes::install_version('INLA', version = '25.06.13',
- # repos = c(getOption('repos'), INLA = 'https://inla.r-inla-download.org/R/testing'), dep = TRUE)"
-  sudo Rscript -e "if (!requireNamespace('INLA', quietly = TRUE)) remotes::install_version('INLA', version = '$selected_version', repos = c(getOption('repos'), INLA = 'https://inla.r-inla-download.org/R/testing'), dep = TRUE)"
-
+  # repos = c(getOption('repos'), INLA = 'https://inla.r-inla-download.org/R/testing'), dep = TRUE)"
+  sudo Rscript -e 'if (!requireNamespace("INLA", quietly = TRUE)) remotes::install_version("INLA", version = "'"$selected_version"'", repos = c(CRAN = "https://cloud.r-project.org", INLA = "https://inla.r-inla-download.org/R/testing"), dep = TRUE)'
   # now since this was installed as root, we need to make a couple of files executable as anyone
   sudo chmod a+x /usr/local/lib/R/site-library/INLA/bin/linux/64bit/inla.mkl.run
   sudo chmod a+x /usr/local/lib/R/site-library/INLA/bin/linux/64bit/inla.mkl
